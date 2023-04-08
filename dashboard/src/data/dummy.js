@@ -484,7 +484,7 @@ export const links = [
     title: 'Management',
     links: [
       {
-        name: 'employees',
+        name: 'team',
         icon: <IoMdContacts />,
       },
     ],

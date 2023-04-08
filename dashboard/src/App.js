@@ -5,10 +5,16 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
 import {Home, Team, Kanban, Calendar} from './pages';
+
+import { useStateContext } from './contexts/ContexProvider';
+
+
 import './App.css'
 
 const App = () => {
-  const acitiveMenu = true;
+
+  const { activeMenu } = useStateContext();
+
   return (
     <div>
       <BrowserRouter>
@@ -22,7 +28,7 @@ const App = () => {
             </TooltipComponent>
           </div>
           {/* Sidebar */}
-          {acitiveMenu ? (
+          {activeMenu ? (
             <div className="w-60 fixed sidebar dark:bg-secondary-dark-bg bg-white" >
               <Sidebar/>
             </div>
