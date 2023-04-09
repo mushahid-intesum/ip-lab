@@ -474,7 +474,7 @@ export const links = [
     title: 'Dashboard',
     links: [
       {
-        name: 'Home',
+        name: 'home',
         icon: <FiHome />,
       },
     ],
