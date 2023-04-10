@@ -4,3 +4,6 @@ export { default as Team } from './Team';
 export { default as Calendar } from './Calendar';
 export { default as Task } from './Task';
 export { default as Project } from './Project';
+export { default as SignInSignUp } from './SignInSignUp';
+
+
