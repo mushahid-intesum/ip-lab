@@ -45,20 +45,20 @@ export const gridOrderStatus = (props) => (
 
 export const kanbanGrid = [
   { headerText: 'To Do',
-    keyField: 'Open',
+    keyField: 'to do',
     allowToggle: true },
 
   { headerText: 'In Progress',
-    keyField: 'InProgress',
+    keyField: 'in Progress',
     allowToggle: true },
 
   { headerText: 'Testing',
-    keyField: 'Testing',
+    keyField: 'testing',
     allowToggle: true,
     isExpanded: true },
 
   { headerText: 'Done',
-    keyField: 'Close',
+    keyField: 'done',
     allowToggle: true },
 ];
 const gridEmployeeProfile = (props) => (
@@ -485,6 +485,16 @@ export const links = [
     links: [
       {
         name: 'team',
+        icon: <IoMdContacts />,
+      },
+
+      // {
+      //   name: 'projects',
+      //   icon: <IoMdContacts />,
+      // },
+
+      {
+        name: 'tasks',
         icon: <IoMdContacts />,
       },
     ],
@@ -3184,7 +3194,7 @@ export const kanbanData = [
   {
     Id: 'Task 2',
     Title: 'Task - 29002',
-    Status: 'InProgress',
+    Status: 'In Progress',
     Summary: 'Improve application performance',
     Type: 'Improvement',
     Priority: 'Normal',
@@ -3212,7 +3222,7 @@ export const kanbanData = [
   {
     Id: 'Task 4',
     Title: 'Task - 29004',
-    Status: 'InProgress',
+    Status: 'In Progress',
     Summary: 'Fix the issues reported in the IE browser.',
     Type: 'Bug',
     Priority: 'Critical',
@@ -3310,7 +3320,7 @@ export const kanbanData = [
   {
     Id: 'Task 11',
     Title: 'Task - 29016',
-    Status: 'InProgress',
+    Status: 'In Progress',
     Summary: 'Fix cannot open user’s default database SQL error.',
     Priority: 'Critical',
     Type: 'Bug',
@@ -3450,7 +3460,7 @@ export const kanbanData = [
   {
     Id: 'Task 21',
     Title: 'Task - 29026',
-    Status: 'InProgress',
+    Status: 'In Progress',
     Summary: 'Improve the performance of the editing functionality.',
     Type: 'Epic',
     Priority: 'High',

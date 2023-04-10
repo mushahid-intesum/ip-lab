@@ -1,10 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { GridComponent, ColumnsDirective, ColumnDirective, Inject, Page, Selection, Search, Toolbar, CommandColumn, Edit, Sort, Filter } from '@syncfusion/ej2-react-grids';
 import { customersData, customersGrid } from '../data/dummy';
 import { useEffect, useState } from 'react'
-import { DialogComponent } from '@syncfusion/ej2-react-popups';
-import { DataManager, UrlAdaptor } from "@syncfusion/ej2-data"
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -16,33 +13,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
 
+import moment from 'moment';
 
 import { Header } from '../components';
 import UserService from '../services/UserService'
 import { ServerConfig } from '../config/ServerConfig'
-// ServerConfig.url.API_URL + '/get_all_users/'
 
-
-
-const Team = () => {
-
-
-  const roles = [
-    {
-      value: 'Manager',
-      label: 'manager',
-    },
-    {
-      value: 'Developer',
-      label: 'developer',
-    },
-  ];
+const Task = () => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [role, setRole] = useState('')
+  const [summary, setSummary] = useState('')
+  const [status, setStatus] = useState('')
+  const [users, setUsers] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+
+  const [data, setData] = useState([])
 
   const [addModalOpen, setAddModalOpen] = React.useState(false);
   const handleAddModalOpen = () => setAddModalOpen(true);
@@ -52,93 +39,138 @@ const Team = () => {
   const handleEditModalOpen = () => setEditModalOpen(true);
   const handleEditModalClose = () => {
     setName('')
-    setPassword('')
-    setEmail('')
-    setRole('')
+    setId('')
+    setSummary('')
+    setStatus('')
+    setUsers('')
+    setStartDate('')
+    setEndDate('')
     setEditModalOpen(false);
   }
 
-  const [data, setData] = useState([])
-
   useEffect(() => {
-    fetchUserList()
+    fetchTaskList()
   }, [])
 
-  const fetchUserList = async () => {
-    const response = await UserService.instance.getUserList()
+
+  const statuses = [
+    {
+      value: 'In Progress',
+      label: 'in progress',
+    },
+    {
+      value: 'To do',
+      label: 'to do',
+    },
+    {
+      value: 'Done',
+      label: 'done',
+    },
+
+    {
+      value: 'Testing',
+      label: 'testing',
+    },
+  ];
+
+  const fetchTaskList = async () => {
+    const response = await UserService.instance.getTaskList()
     console.log(response)
     if (response.status) {
-      setData(response.userList)
+
+      const list = response.tasksList;
+
+      for(let i = 0;i<list.length;i++)
+      {
+        list[i]['startDate'] = moment(list[i]['startDate']).utc().format('YYYY-MM-DD')
+        list[i]['endDate'] = moment(list[i]['endDate']).utc().format('YYYY-MM-DD')
+      }
+      setData(response.tasksList)
     }
   }
 
-  const handleAddNewUser = async () => {
+  const handleAddNewTask = async () => {
     const payload = {
-      userName: name,
-      userEmail: email,
-      userPassword: password,
-      userRole: role
+      taskName: name,
+      summary: summary,
+      status: status,
+      assigedUsers: users,
+      startDate: startDate,
+      endDate: endDate
     }
-    const response = await UserService.instance.addUser(payload)
+    const response = await UserService.instance.addTask(payload)
     console.log(response)
     if (response.status) {
       setName('')
-      setPassword('')
-      setEmail('')
-      setRole('')
+      setSummary('')
+      setStatus('')
+      setUsers('')
+      setStartDate('')
+      setEndDate('')
 
-      fetchUserList()
+      fetchTaskList()
       handleAddModalClose()
 
     }
   }
 
-  const handleEdit = async() => {
+  const handleEdit = async () => {
     const payload = {
-      userName: name,
-      userId: id,
-      userPassword: password,
-      userRole: role
+      taskId: id,
+      taskName: name,
+      summary: summary,
+      status: status,
+      assigedUsers: users,
+      startDate: startDate,
+      endDate: endDate
     }
-    const response = await UserService.instance.editUser(payload)
+    const response = await UserService.instance.editTask(payload)
     console.log(response)
     if (response.status) {
       setName('')
-      setPassword('')
-      setEmail('')
-      setRole('')
+      setSummary('')
+      setStatus('')
+      setUsers('')
+      setStartDate('')
+      setEndDate('')
 
-      fetchUserList()
+      fetchTaskList()
       handleEditModalClose()
 
     }
   }
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     const payload = {
-      userId: id
+      taskId: id
     }
 
-    const response = await UserService.instance.deleteUser(payload)
+    const response = await UserService.instance.deleteTask(payload)
     console.log(response)
     if (response.status) {
       setName('')
-      setPassword('')
-      setEmail('')
-      setRole('')
+      setSummary('')
+      setStatus('')
+      setUsers('')
+      setStartDate('')
+      setEndDate('')
 
-      fetchUserList()
+      fetchTaskList()
       handleEditModalClose()
 
     }
   }
 
   const rowSelected = (args) => {
-    const user = args.data;
-    setId(user['userId'])
-    setName(user['userName'])
-    setEmail(user['userEmail'])
-    setRole(user['userRole'])
+    const task = args.data;
+    setId(task['taskId'])
+    setName(task['taskName'])
+    setSummary(task['summary'])
+    setStatus(task['taskStatus'])
+    setUsers(task['assignedUsers'])
+    setStartDate(task['startDate'])
+    setEndDate(task['endDate'])
+
     handleEditModalOpen()
   };
 
@@ -156,10 +188,13 @@ const Team = () => {
         rowSelected={rowSelected}
       >
         <ColumnsDirective>
-          <ColumnDirective field='userId' width='100' />
-          <ColumnDirective field='userName' width='100' />
-          <ColumnDirective field='userEmail' width='100' />
-          <ColumnDirective field='userRole' width='100' />
+          <ColumnDirective field='taskId' width='100' />
+          <ColumnDirective field='taskName' width='100' />
+          <ColumnDirective field='summary' width='100' />
+          <ColumnDirective field='startDate' width='100' />
+          <ColumnDirective field='endDate' width='100' />
+          {/* <ColumnDirective field='assignedUsers' width='100' /> */}
+          <ColumnDirective field='status' width='100' />
 
         </ColumnsDirective>
         <Inject services={[Page, Search, Toolbar, Selection, Edit, Sort, CommandColumn, Filter]} />
@@ -173,7 +208,7 @@ const Team = () => {
           onClose={handleAddModalClose}
         >
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description" component="form">
+            <DialogContentText id="alert-dialog-slide-summary" component="form">
               <Box
                 component="form"
                 sx={{
@@ -186,7 +221,7 @@ const Team = () => {
                   <TextField
                     form
                     id="outlined-disabled"
-                    label="User Name"
+                    label="Task Name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -194,44 +229,53 @@ const Team = () => {
                   <TextField
                     form
                     id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    label="summary"
+                    multiline
+                    value={summary}
+                    onChange={(e) => setSummary(e.target.value)}
                   />
                 </div>
                 <div>
                   <TextField
                     form
                     id="outlined-disabled"
-                    label="Email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                   />
+
+                  <TextField
+                    form
+                    id="outlined-disabled"
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+
+                </div>
+                <div>
                   <TextField
                     select
                     SelectProps={{
                       native: true,
                     }}
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    helperText="Please select role"
-                    defaultValue='manager'
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    helperText="Please select status"
+                  // defaultValue='manager'
                   >
-                    {roles.map((option) => (
+                    {statuses.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
                     ))}
                   </TextField>
                 </div>
-                </Box>
+              </Box>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleAddNewUser}>Add new user</Button>
+            <Button onClick={handleAddNewTask}>Add new task</Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -241,9 +285,8 @@ const Team = () => {
           open={editModalOpen}
           keepMounted
           onClose={handleEditModalClose}
-          aria-describedby="alert-dialog-slide-description"
+          aria-describedby="alert-dialog-slide-summary"
         >
-          <DialogTitle>{"Use Google's location service?"}</DialogTitle>
           <DialogContent>
           <Box
                 component="form"
@@ -257,37 +300,57 @@ const Team = () => {
                   <TextField
                     form
                     id="outlined-disabled"
-                    label="User Name"
+                    label="Task Name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <TextField
                     form
-                    id="outlined-disabled"
-                    disabled
-                    label="Email"
-                    type="email"
-                    value={email}
+                    id="outlined-password-input"
+                    label="summary"
+                    multiline
+                    value={summary}
+                    onChange={(e) => setSummary(e.target.value)}
                   />
+                </div>
+                <div>
+                  <TextField
+                    form
+                    id="outlined-disabled"
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+
+                  <TextField
+                    form
+                    id="outlined-disabled"
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+
+                </div>
+                <div>
                   <TextField
                     select
                     SelectProps={{
                       native: true,
                     }}
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    helperText="Please select role"
-                    defaultValue='manager'
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    helperText="Please select status"
+                  // defaultValue='manager'
                   >
-                    {roles.map((option) => (
+                    {statuses.map((option) => (
                       <option key={option.value} value={option.value}>
                         {option.label}
                       </option>
                     ))}
                   </TextField>
                 </div>
-                </Box>
+              </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDelete}>Delete</Button>
@@ -299,5 +362,4 @@ const Team = () => {
   )
 }
 
-
-export default Team
+export default Task;

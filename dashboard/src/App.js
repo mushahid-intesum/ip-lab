@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import {Navbar, Footer, Sidebar, ThemeSettings} from './components';
-import {Home, Team, Kanban, Calendar} from './pages';
+import {Home, Team, Kanban, Calendar, Project, Task} from './pages';
 
 import { useStateContext } from './contexts/ContexProvider';
 
@@ -66,6 +66,9 @@ const App = () => {
               
               {/* Pages */}
               <Route path="/team" element={<Team />} />
+
+              {/* <Route path="/projects" element={<Project/>} /> */}
+              <Route path="/tasks" element={<Task/>} />
               
               {/* Apps */}
               <Route path="/kanban" element={<Kanban />} />
