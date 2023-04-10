@@ -176,7 +176,7 @@ const Task = () => {
 
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Management" title="Team" />
+      <Header category="Management" title="Tasks" />
       <Button onClick={handleAddModalOpen}>Add</Button>
       <GridComponent
         dataSource={data}
