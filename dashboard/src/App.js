@@ -60,8 +60,7 @@ const App = () => {
 
             <Routes>
               
-              {/* Dashboard */}
-              <Route path="/" element={<Home />} />
+
               <Route path="/home" element={<Home />} />
               
               {/* Pages */}
@@ -75,8 +74,10 @@ const App = () => {
               <Route path="/calendar" element={<Calendar />} />
 
 
+              {/* Dashboard */}
+              <Route path="/" element={<SignInSignUp />} />
               {/* Sign in and up */}
-              <Route path="/signInSignUp" element={<SignInSignUp />} />
+              <Route path="/sign-in-sign-up" element={<SignInSignUp />} />
 
             </Routes>
           </div>

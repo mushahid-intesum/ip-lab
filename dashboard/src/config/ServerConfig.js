@@ -2,8 +2,8 @@ import utility from '../utility/utility'
 
 const prod = {
   url: {
-    // API_URL: 'http://35.224.190.237:2526',
-    API_URL: 'http://127.0.0.1:5000/api/v1'
+    // API_URL: 'http://127.0.0.1:5000/api/v1',
+    API_URL: 'https://ip-lab-backend-production.up.railway.app/api/v1'
   },
 }
 const dev = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
-import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart, FiHome, FiDatabase } from 'react-icons/fi';
+import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart, FiDatabase, FiHome } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
@@ -512,17 +512,6 @@ export const links = [
       },
     ],
   },
-
-  {
-    title: 'Sign in / Sign up',
-    links: [
-      {
-        name: 'signInSignUp',
-        icon: <FiDatabase />,
-      },
-    ],
-  },
-
 ];
 
 export const cartData = [
@@ -2814,7 +2803,7 @@ export const ordersData = [
 export const scheduleData = [
   {
     Id: 1,
-    Subject: 'Explosion of Betelgeuse Star',
+    subject: 'Explosion of Betelgeuse Star',
     Location: 'Space Center USA',
     StartTime: '2021-01-10T04:00:00.000Z',
     EndTime: '2021-01-10T05:30:00.000Z',
@@ -2822,7 +2811,7 @@ export const scheduleData = [
   },
   {
     Id: 2,
-    Subject: 'Thule Air Crash Report',
+    subject: 'Thule Air Crash Report',
     Location: 'Newyork City',
     StartTime: '2021-01-11T06:30:00.000Z',
     EndTime: '2021-01-11T08:30:00.000Z',
@@ -2830,7 +2819,7 @@ export const scheduleData = [
   },
   {
     Id: 3,
-    Subject: 'Blue Moon Eclipse',
+    subject: 'Blue Moon Eclipse',
     Location: 'Space Center USA',
     StartTime: '2021-01-12T04:00:00.000Z',
     EndTime: '2021-01-12T05:30:00.000Z',
@@ -2838,7 +2827,7 @@ export const scheduleData = [
   },
   {
     Id: 4,
-    Subject: 'Meteor Showers in 2021',
+    subject: 'Meteor Showers in 2021',
     Location: 'Space Center USA',
     StartTime: '2021-01-13T07:30:00.000Z',
     EndTime: '2021-01-13T09:00:00.000Z',
@@ -2846,7 +2835,7 @@ export const scheduleData = [
   },
   {
     Id: 5,
-    Subject: 'Milky Way as Melting pot',
+    subject: 'Milky Way as Melting pot',
     Location: 'Space Center USA',
     StartTime: '2021-01-14T06:30:00.000Z',
     EndTime: '2021-01-14T08:30:00.000Z',
@@ -2854,7 +2843,7 @@ export const scheduleData = [
   },
   {
     Id: 6,
-    Subject: 'Mysteries of Bermuda Triangle',
+    subject: 'Mysteries of Bermuda Triangle',
     Location: 'Bermuda',
     StartTime: '2021-01-14T04:00:00.000Z',
     EndTime: '2021-01-14T05:30:00.000Z',
@@ -2862,7 +2851,7 @@ export const scheduleData = [
   },
   {
     Id: 7,
-    Subject: 'Glaciers and Snowflakes',
+    subject: 'Glaciers and Snowflakes',
     Location: 'Himalayas',
     StartTime: '2021-01-15T05:30:00.000Z',
     EndTime: '2021-01-15T07:00:00.000Z',
@@ -2870,7 +2859,7 @@ export const scheduleData = [
   },
   {
     Id: 8,
-    Subject: 'Life on Mars',
+    subject: 'Life on Mars',
     Location: 'Space Center USA',
     StartTime: '2021-01-16T03:30:00.000Z',
     EndTime: '2021-01-16T04:30:00.000Z',
@@ -2878,7 +2867,7 @@ export const scheduleData = [
   },
   {
     Id: 9,
-    Subject: 'Alien Civilization',
+    subject: 'Alien Civilization',
     Location: 'Space Center USA',
     StartTime: '2021-01-18T05:30:00.000Z',
     EndTime: '2021-01-18T07:30:00.000Z',
@@ -2886,7 +2875,7 @@ export const scheduleData = [
   },
   {
     Id: 10,
-    Subject: 'Wildlife Galleries',
+    subject: 'Wildlife Galleries',
     Location: 'Africa',
     StartTime: '2021-01-20T05:30:00.000Z',
     EndTime: '2021-01-20T07:30:00.000Z',
@@ -2894,7 +2883,7 @@ export const scheduleData = [
   },
   {
     Id: 11,
-    Subject: 'Best Photography 2021',
+    subject: 'Best Photography 2021',
     Location: 'London',
     StartTime: '2021-01-21T04:00:00.000Z',
     EndTime: '2021-01-21T05:30:00.000Z',
@@ -2902,7 +2891,7 @@ export const scheduleData = [
   },
   {
     Id: 12,
-    Subject: 'Smarter Puppies',
+    subject: 'Smarter Puppies',
     Location: 'Sweden',
     StartTime: '2021-01-08T04:30:00.000Z',
     EndTime: '2021-01-08T06:00:00.000Z',
@@ -2910,7 +2899,7 @@ export const scheduleData = [
   },
   {
     Id: 13,
-    Subject: 'Myths of Andromeda Galaxy',
+    subject: 'Myths of Andromeda Galaxy',
     Location: 'Space Center USA',
     StartTime: '2021-01-06T05:00:00.000Z',
     EndTime: '2021-01-06T07:00:00.000Z',
@@ -2918,7 +2907,7 @@ export const scheduleData = [
   },
   {
     Id: 14,
-    Subject: 'Aliens vs Humans',
+    subject: 'Aliens vs Humans',
     Location: 'Research Center of USA',
     StartTime: '2021-01-05T04:30:00.000Z',
     EndTime: '2021-01-05T06:00:00.000Z',
@@ -2926,7 +2915,7 @@ export const scheduleData = [
   },
   {
     Id: 15,
-    Subject: 'Facts of Humming Birds',
+    subject: 'Facts of Humming Birds',
     Location: 'California',
     StartTime: '2021-01-19T04:00:00.000Z',
     EndTime: '2021-01-19T05:30:00.000Z',
@@ -2934,7 +2923,7 @@ export const scheduleData = [
   },
   {
     Id: 16,
-    Subject: 'Sky Gazers',
+    subject: 'Sky Gazers',
     Location: 'Alaska',
     StartTime: '2021-01-22T05:30:00.000Z',
     EndTime: '2021-01-22T07:30:00.000Z',
@@ -2942,7 +2931,7 @@ export const scheduleData = [
   },
   {
     Id: 17,
-    Subject: 'The Cycle of Seasons',
+    subject: 'The Cycle of Seasons',
     Location: 'Research Center of USA',
     StartTime: '2021-01-11T00:00:00.000Z',
     EndTime: '2021-01-11T02:00:00.000Z',
@@ -2950,7 +2939,7 @@ export const scheduleData = [
   },
   {
     Id: 18,
-    Subject: 'Space Galaxies and Planets',
+    subject: 'Space Galaxies and Planets',
     Location: 'Space Center USA',
     StartTime: '2021-01-11T11:30:00.000Z',
     EndTime: '2021-01-11T13:00:00.000Z',
@@ -2958,7 +2947,7 @@ export const scheduleData = [
   },
   {
     Id: 19,
-    Subject: 'Lifecycle of Bumblebee',
+    subject: 'Lifecycle of Bumblebee',
     Location: 'San Fransisco',
     StartTime: '2021-01-14T00:30:00.000Z',
     EndTime: '2021-01-14T02:00:00.000Z',
@@ -2966,7 +2955,7 @@ export const scheduleData = [
   },
   {
     Id: 20,
-    Subject: 'Alien Civilization',
+    subject: 'Alien Civilization',
     Location: 'Space Center USA',
     StartTime: '2021-01-14T10:30:00.000Z',
     EndTime: '2021-01-14T12:30:00.000Z',
@@ -2974,7 +2963,7 @@ export const scheduleData = [
   },
   {
     Id: 21,
-    Subject: 'Alien Civilization',
+    subject: 'Alien Civilization',
     Location: 'Space Center USA',
     StartTime: '2021-01-10T08:30:00.000Z',
     EndTime: '2021-01-10T10:30:00.000Z',
@@ -2982,7 +2971,7 @@ export const scheduleData = [
   },
   {
     Id: 22,
-    Subject: 'The Cycle of Seasons',
+    subject: 'The Cycle of Seasons',
     Location: 'Research Center of USA',
     StartTime: '2021-01-12T09:00:00.000Z',
     EndTime: '2021-01-12T10:30:00.000Z',
@@ -2990,7 +2979,7 @@ export const scheduleData = [
   },
   {
     Id: 23,
-    Subject: 'Sky Gazers',
+    subject: 'Sky Gazers',
     Location: 'Greenland',
     StartTime: '2021-01-15T09:00:00.000Z',
     EndTime: '2021-01-15T10:30:00.000Z',
@@ -2998,7 +2987,7 @@ export const scheduleData = [
   },
   {
     Id: 24,
-    Subject: 'Facts of Humming Birds',
+    subject: 'Facts of Humming Birds',
     Location: 'California',
     StartTime: '2021-01-16T07:00:00.000Z',
     EndTime: '2021-01-16T09:00:00.000Z',

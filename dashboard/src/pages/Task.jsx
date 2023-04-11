@@ -55,21 +55,21 @@ const Task = () => {
 
   const statuses = [
     {
-      value: 'In Progress',
-      label: 'in progress',
+      value: "Ongoing",
+      label: "Ongoing",
     },
     {
-      value: 'To do',
-      label: 'to do',
+      value: "Open",
+      label: "To do",
     },
     {
-      value: 'Done',
-      label: 'done',
+      value: "Done",
+      label: "Done",
     },
 
     {
-      value: 'Testing',
-      label: 'testing',
+      value: "Testing",
+      label: "Testing",
     },
   ];
 
@@ -90,6 +90,8 @@ const Task = () => {
   }
 
   const handleAddNewTask = async () => {
+
+    console.log(status)
     const payload = {
       taskName: name,
       summary: summary,
@@ -262,7 +264,6 @@ const Task = () => {
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                     helperText="Please select status"
-                  // defaultValue='manager'
                   >
                     {statuses.map((option) => (
                       <option key={option.value} value={option.value}>

@@ -27,26 +27,6 @@ const Kanban = () => {
   }, [])
 
 
-  const statuses = [
-    {
-      value: 'In Progress',
-      label: 'in progress',
-    },
-    {
-      value: 'To do',
-      label: 'to do',
-    },
-    {
-      value: 'Done',
-      label: 'done',
-    },
-
-    {
-      value: 'Testing',
-      label: 'testing',
-    },
-  ];
-
   const fetchTaskList = async () => {
     const response = await UserService.instance.getTaskList()
     console.log(response)
@@ -62,6 +42,20 @@ const Kanban = () => {
     }
   }
 
+  const handleEdit = async (payload) => {
+
+    const response = await UserService.instance.editTask(payload)
+    console.log(response)
+    if (response.status) {
+      fetchTaskList()
+
+    }
+  }
+
+  const onActionComplete = (args) => {
+    const payload = args.changedRecords[0];
+    handleEdit(payload)
+  };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -71,10 +65,11 @@ const Kanban = () => {
         dataSource={data}
         cardSettings={{ contentField: "summary", headerField: "taskName" }}
         keyField="status"
+        actionComplete={onActionComplete}
       >
         <ColumnsDirective>
-          <ColumnDirective headerText="To Do" keyField="To Do" />
-          <ColumnDirective headerText="In Progress" keyField="In Progress" />
+          <ColumnDirective headerText="To Do" keyField="Open" />
+          <ColumnDirective headerText="Ongoing" keyField="Ongoing" />
           <ColumnDirective headerText="Testing" keyField="Testing" />
           <ColumnDirective headerText="Done" keyField="Done" />
 

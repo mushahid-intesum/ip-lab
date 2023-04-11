@@ -11,6 +11,8 @@ async function createNewTask(req, res)
         
         const taskId = uuid.v1();
 
+        console.log(req.body)
+
         await new Promise((resolve, reject) => {
                 dbConnection.query(
                     `INSERT INTO tasks_table
@@ -48,7 +50,6 @@ async function getAllTasks(req, res)
                         res.status(401).json({ message: error });
                         return;
                     }
-                    console.log(result);
                     resolve(result);
                 }
             );
@@ -76,7 +77,6 @@ async function getTask(req, res)
                         res.status(401).json({ message: error });
                         return;
                     }
-                    console.log(result);
                     resolve(result);
                 }
             );
