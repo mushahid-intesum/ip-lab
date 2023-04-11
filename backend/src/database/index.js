@@ -6,12 +6,6 @@ const user = "root";
 const password = "MySQLTala135.";
 const database = "project_management";
 
-// const host = "containers-us-west-192.railway.app";
-// const user = "root";
-// const password = "IAaCuFLZFPCMwgsDskxf";
-// const database = "railway";
-// const port = 5669
-
 var pool = mysql.createPool({
 	host: host,
 	user: user,
