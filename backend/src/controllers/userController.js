@@ -117,7 +117,7 @@ async function getDeletedUser(req) {
 
     const response = await new Promise((resolve, reject) => {
         dbConnection.query(
-            "SELECT * FROM user_table WHERE userEmail = ? and deleted = ?",
+            "SELECT * FROM user_table WHERE userEmail = ? AND deleted = ?",
             [userEmail, "YES"],
             (error, result, field) => {
                 if (error) {

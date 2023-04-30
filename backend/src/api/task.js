@@ -9,4 +9,5 @@ router.post("/get_all_tasks", taskController.getAllTasks);
 router.post("/get_task", taskController.getTask);
 router.post("/delete_task", taskController.deleteTask);
 router.post("/update_task", taskController.updateTask);
+
 module.exports = router;
