@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from '../components';
-import { Home, Team, Kanban, Calendar, Project, Task, SignInSignUp } from '../pages';
+import { Home, Team, Kanban, Calendar, Project, Task, SignInSignUp, GitReport} from '../pages';
 
 import { useStateContext } from '../contexts/ContexProvider';
 
@@ -79,6 +79,7 @@ const DefaultLayout = () => {
                 {/* Apps */}
                 <Route path="/kanban" element={<Kanban />} /> 
                 <Route path="/calendar" element={<Calendar />} />
+                <Route path="/gitreport" element={<GitReport />} />
 
               </Routes>
             </div>

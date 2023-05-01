@@ -5,5 +5,6 @@ export { default as Calendar } from './Calendar';
 export { default as Task } from './Task';
 export { default as Project } from './Project';
 export { default as SignInSignUp } from './SignInSignUp';
+export { default as GitReport } from './GitReport';
 
 
