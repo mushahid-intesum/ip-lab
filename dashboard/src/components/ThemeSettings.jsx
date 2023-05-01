@@ -14,21 +14,21 @@ const ThemeSettings = () => {
     <div className="bg-half-transparent w-screen fixed nav-item top-0 right-0">
       <div className="float-right h-screen dark:text-gray-200 bg-white drak:[#484B52] w-400">
         <div className="flex justify-between items-center p-4 ml-4">
-          <p className="font-semibold text-xl">
+          <p className="font-semibold text-xl text-black">
             Settings
           </p>
           <button 
             type="button"
             onClick={() => setThemeSettings(false)}
             style={{ color: 'rgb (153, 171, 180)', borderRadius: '50%'}}
-            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+            className="text-2xl text-black p-3 hover:drop-shadow-xl hover:bg-light-gray"
           >
             <MdOutlineCancel />
           </button>
         </div>
 
         <div className="flex-col border-t-1 border-color p-4 ml-4">
-          <p className="font-semibold text-lg">
+          <p className="font-semibold text-lg text-black">
             Theme Options
           </p>
 
@@ -42,7 +42,7 @@ const ThemeSettings = () => {
               onChange={setMode}
               checked={currentMode === 'Light'}
             />
-            <label htmlFor="light" className="ml-2 text-md cursor-pointer">
+            <label htmlFor="light" className="ml-2 text-md cursor-pointer text-black">
               Light
             </label>
           </div>
@@ -56,7 +56,7 @@ const ThemeSettings = () => {
               onChange={setMode}
               checked={currentMode === 'Dark'}
             />
-            <label htmlFor="dark" className="ml-2 text-md cursor-pointer">
+            <label htmlFor="dark" className="ml-2 text-md cursor-pointer text-black">
               Dark
             </label>
           </div>
@@ -65,7 +65,7 @@ const ThemeSettings = () => {
         </div>
 
         <div className="flex-col border-t-1 border-color p-4 ml-4">
-          <p className="font-semibold text-lg">
+          <p className="font-semibold text-lg text-black">
             Theme Colors
           </p>
 
