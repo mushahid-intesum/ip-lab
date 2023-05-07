@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "dhtmlx-gantt": "^8.0.1"
+  }
+}
