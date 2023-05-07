@@ -192,7 +192,6 @@ async function getReport(req, res) {
                     // messages.push(data)
                 }
 
-                console.log(messages)
                 fs.rmSync(tempDir, { recursive: true, force: true });
 
                 // const response = cohere.summarize({

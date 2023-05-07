@@ -80,7 +80,6 @@ const GitReport = () => {
 
   const fetchGitRepoList = async () => {
     handleProgressBarClose()
-    console.log(openProgressBar)
     const response = await ProjectService.instance.getRepoList()
     console.log(response)
     if (response.status) {

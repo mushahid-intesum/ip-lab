@@ -7,11 +7,13 @@ import { Navbar, Footer, Sidebar, ThemeSettings, UserProfile } from '../componen
 import { Home, Team, Kanban, Calendar, ProjectUsers, Task, SignInSignUp, GitReport} from '../pages';
 
 import { useStateContext } from '../contexts/ContexProvider';
+import { useNavigate } from 'react-router-dom'
 
 
 import './App.css'
 
 const DefaultLayout = () => {
+  const navigate = useNavigate()
 
   const [currPath, setCurrPath] = useState(window.location.pathname)
 

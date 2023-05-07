@@ -282,6 +282,133 @@ class ProjectService {
         }
         return DefaultService.instance.defaultResponse()
     }
+
+    async addRepo(payload) {
+        let retry = 0
+
+        while (retry++ < 2) {
+            console.log(ServerConfig.url.API_URL + '/add_new_repo/')
+            try {
+                const addRepoResponse = await axios.post(
+                    ServerConfig.url.API_URL + '/add_new_repo/',
+                    payload,
+                    DefaultService.instance.getHeader(),
+                )
+
+                switch (addRepoResponse.data.responseMessage) {
+                    default:
+                        return addRepoResponse.data
+                }
+            } catch (error) {
+                console.log('Error in addRepo in services/UserService.js')
+                console.log(error)
+                retry++
+            }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
+
+
+    async getRepoList() {
+        let retry = 0
+
+        while (retry++ < 2) {
+            console.log(ServerConfig.url.API_URL + '/get_all_repo/')
+            try {
+                const getRepoListResponse = await axios.post(
+                    ServerConfig.url.API_URL + '/get_all_repo/',
+                    DefaultService.instance.getHeader(),
+                )
+
+                switch (getRepoListResponse.data.responseMessage) {
+                    default:
+                        return getRepoListResponse.data
+                }
+            } catch (error) {
+                console.log('Error in getRepoList in services/UserService.js')
+                console.log(error)
+                retry++
+            }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
+
+    async editRepo(payload) {
+        let retry = 0
+
+        while (retry++ < 2) {
+            console.log(ServerConfig.url.API_URL + '/update_repo/')
+            try {
+                const editRepoResponse = await axios.post(
+                    ServerConfig.url.API_URL + '/update_repo/',
+                    payload,
+                    DefaultService.instance.getHeader(),
+                )
+
+                switch (editRepoResponse.data.responseMessage) {
+                    default:
+                        return editRepoResponse.data
+                }
+            } catch (error) {
+                console.log('Error in editRepo in services/UserService.js')
+                console.log(error)
+                retry++
+            }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
+
+    async deleteRepo(payload) {
+        let retry = 0
+
+        while (retry++ < 2) {
+            console.log(ServerConfig.url.API_URL + '/delete_repo/')
+            try {
+                const deleteRepoResponse = await axios.post(
+                    ServerConfig.url.API_URL + '/delete_repo/',
+                    payload,
+                    DefaultService.instance.getHeader(),
+                )
+
+                switch (deleteRepoResponse.data.responseMessage) {
+                    default:
+                        return deleteRepoResponse.data
+                }
+            } catch (error) {
+                console.log('Error in deleteRepo in services/UserService.js')
+                console.log(error)
+                retry++
+            }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
+
+    async getRepoReport(payload) {
+        let retry = 0
+
+        while (retry++ < 2) {
+            console.log(ServerConfig.url.API_URL + '/get_commit_report/')
+            try {
+                const getRepoReportResponse = await axios.post(
+                    ServerConfig.url.API_URL + '/get_commit_report/',
+                    payload,
+                    DefaultService.instance.getHeader(),
+                )
+
+                switch (getRepoReportResponse.data.responseMessage) {
+                    default:
+                        return getRepoReportResponse.data
+                }
+            } catch (error) {
+                console.log('Error in getRepoReport in services/UserService.js')
+                console.log(error)
+                retry++
+            }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
 }
+
+
 
 export default ProjectService;
