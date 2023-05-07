@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
-import { ContextProver } from './contexts/ContexProvider';
+import { ContextProvider } from './contexts/ContexProvider';
 
 ReactDOM.render(
-    <ContextProver>
+    <ContextProvider>
         <App />,        
-    </ContextProver>,
+    </ContextProvider>,
     document.getElementById('root'));

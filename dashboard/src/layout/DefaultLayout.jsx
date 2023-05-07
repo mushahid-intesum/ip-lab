@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import { Navbar, Footer, Sidebar, ThemeSettings } from '../components';
+import { Navbar, Footer, Sidebar, ThemeSettings, UserProfile } from '../components';
 import { Home, Team, Kanban, Calendar, ProjectUsers, Task, SignInSignUp, GitReport} from '../pages';
 
 import { useStateContext } from '../contexts/ContexProvider';
@@ -80,6 +80,7 @@ const DefaultLayout = () => {
                 <Route path="/kanban" element={<Kanban />} /> 
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/gitreport" element={<GitReport />} />
+                <Route path="/userprofile" element={<UserProfile />} />
 
               </Routes>
             </div>
