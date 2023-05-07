@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings, UserProfile } from '../components';
-import { Home, Team, Kanban, Calendar, ProjectUsers, Task, SignInSignUp, GitReport} from '../pages';
+import { Home, Team, Kanban, Calendar, ProjectUsers, Task, SignIn, SignUp, GitReport} from '../pages';
 
 import { useStateContext } from '../contexts/ContexProvider';
 import { useNavigate } from 'react-router-dom'
@@ -83,7 +83,8 @@ const DefaultLayout = () => {
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/gitreport" element={<GitReport />} />
                 <Route path="/userprofile" element={<UserProfile />} />
-
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
               </Routes>
             </div>
           </div>
