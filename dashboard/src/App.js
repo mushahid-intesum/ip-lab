@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Home, Team, Kanban, Calendar, Project, Task, SignInSignUp } from './pages';
+import { Home, Team, Kanban, Calendar, Project, Task, SignIn, SignUp } from './pages';
 
 import { useStateContext } from './contexts/ContexProvider';
 
@@ -38,10 +38,10 @@ const App = () => {
         <Suspense fallback={loading}>
           <Routes>
             {/* Dashboard */}
-            <Route path="/" element={<SignInSignUp />} />
+            <Route path="/" element={<SignIn />} />
             {/* Sign in and up */}
-            <Route path="/sign-in-sign-up" element={<SignInSignUp />} />
-
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route element={< ProtectedRoutes />}>
               <Route path="*" name="Home" element={<DefaultLayout />} />
             </Route>
