@@ -105,7 +105,7 @@ async function getDeletedRepo(req) {
                 }
             );
         });
-    }catch (e) {
+    } catch (e) {
         console.log(e)
     }
 
@@ -156,8 +156,6 @@ async function getReport(req, res) {
             );
         });
 
-        console.log("repoUrl", repoUrl[0]['repoUrl'])
-
         const tempDir = "git_report"
 
         const clone = await NodeGit.Clone(repoUrl[0]['repoUrl'], tempDir);
@@ -165,15 +163,16 @@ async function getReport(req, res) {
 
         gitRepo.log((err, log) => {
             if (err) {
+                console.log("error")
+                fs.rmSync(tempDir, { recursive: true, force: true });
                 res.send({
-                    gitReport: "response",
-                    status: true,
+                    status: false,
                     responseMessage: "Error in report making",
                 })
             }
 
             else {
-
+                console.log("fetching report")
                 const allMessages = log['all'];
                 const latestMessage = log['latest'];
 
@@ -202,16 +201,16 @@ async function getReport(req, res) {
 
                 (async () => {
                     const response = await cohere.summarize({
-                      text: messages,
+                        text: messages,
                     });
                     res.send({
                         gitReport: response,
                         status: true,
                         responseMessage: "Git reports sent",
                     })
-                  })();
+                })();
             }
-          });
+        });
 
     } catch (e) {
         console.log(e);
@@ -219,36 +218,92 @@ async function getReport(req, res) {
 }
 
 
-// async function getGitCommits(req, res) {
-//     try {
-//         let text = await getGitCommits(req);
-//         console.log("text", text)
-//         const tempDir = "git_report"
-//         fs.rmSync(tempDir, { recursive: true, force: true });
+async function getGitCommits(req, res) {
+    try {
+        let text = await getGitCommits(req);
+        console.log("text", text)
+        const tempDir = "git_report"
+        fs.rmSync(tempDir, { recursive: true, force: true });
 
 
 
 
-//         const response = await cohere.summarize({
-//             text: text,
-//         });
-//         console.log(response);
+        const response = await cohere.summarize({
+            text: text,
+        });
+        console.log(response);
 
-//         res.send({
-//             gitReport: response,
-//             status: true,
-//             responseMessage: "Git reports sent",
-//         })
+        res.send({
+            gitReport: response,
+            status: true,
+            responseMessage: "Git reports sent",
+        })
 
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function getAllRepo(req, res) {
+    try {
+        const list = await new Promise((resolve, reject) => {
+            dbConnection.query(
+                "SELECT * from git_repo_table WHERE deleted = ?",
+                ["NO"],
+                (error, result, field) => {
+                    if (error) {
+                        res.status(401).json({ message: error });
+                        return;
+                    }
+                    console.log(result);
+                    resolve(result);
+                }
+            );
+        });
+        return res.send({
+            repoList: list,
+            status: true,
+            responseMessage: "repo list sent",
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function update_repo(req, res) {
+    try {
+        const { repoId, repoName, repoUrl } = req.body;
+
+        await new Promise((resolve, reject) => {
+            dbConnection.query(
+                `UPDATE git_repo_table SET
+                    repoName = ?, repoUrl = ? WHERE repoId = ?`,
+                [repoName, repoUrl, repoId],
+                (error, result, field) => {
+                    if (error) {
+                        res.status(401).json({ message: error });
+                        return;
+                    }
+                    resolve();
+                }
+            );
+            return res.send({
+                status: true,
+                responseMessage: "repo updated",
+            });
+        });
+
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 
 module.exports = {
     addNewGitRepo,
     deleteGitRepo,
     // getGitCommits,
-    getReport
+    getReport,
+    getAllRepo,
+    update_repo
 }

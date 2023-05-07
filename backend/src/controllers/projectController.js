@@ -94,7 +94,7 @@ async function updateProject(req, res) {
         await new Promise((resolve, reject) => {
             dbConnection.query(
                 `UPDATE projects_table SET
-                    (projectName = ?, startDate = ?, endDate = ?, projectManagerId = ?, description = ? WHERE projectId = ? )`,
+                    projectName = ?, startDate = ?, endDate = ?, projectManagerId = ?, description = ? WHERE projectId = ? `,
                 [projectName, startDate, endDate, projectManagerId, description, projectId],
                 (error, result, field) => {
                     if (error) {

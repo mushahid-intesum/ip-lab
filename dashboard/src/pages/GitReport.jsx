@@ -1,7 +1,28 @@
 import React from 'react';
 import { Header, Modal } from '../components';
-import { useState } from 'react';
 import styled from 'styled-components';
+import { GridComponent, ColumnsDirective, ColumnDirective, Inject, Page, Selection, Search, Toolbar, CommandColumn, Edit, Sort, Filter } from '@syncfusion/ej2-react-grids';
+import { customersData, customersGrid } from '../data/dummy';
+import { useEffect, useState } from 'react'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import TextField from '@mui/material/TextField';
+
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import { useNavigate } from 'react-router-dom'
+
+// import ProjectService from '../services/ProjectService';
+import ProjectService from "../services/ProjectService";
+import { ServerConfig } from '../config/ServerConfig'
 
 const StyledButton = styled.button`
   background-color: transparent;
@@ -13,10 +34,59 @@ const StyledButton = styled.button`
 `;
 
 const GitReport = () => {
+
+  const navigate = useNavigate()
+
   const [numCommits, setNumCommits] = useState(null);
   const [numReports, setNumReports] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
+
+  const [id, setId] = useState('')
+  const [name, setName] = useState("");
+  const [url, setUrl] = useState("");
+  const [report, setReport] = useState("");
+
+  const [scroll, setScroll] = React.useState('paper');
+
+  const [data, setData] = useState([]);
+
+  const [addModalOpen, setAddModalOpen] = React.useState(false);
+  const handleAddModalOpen = () => setAddModalOpen(true);
+  const handleAddModalClose = () => setAddModalOpen(false);
+
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const handleEditModalOpen = () => setEditModalOpen(true);
+  const handleEditModalClose = () => {
+    setName('')
+    setId('')
+    setUrl('')
+    setEditModalOpen(false);
+  }
+
+  const [openProgressBar, setProgressBarOpen] = React.useState(false);
+  const handleProgressBarOpen = () => setProgressBarOpen(true);
+  const handleProgressBarClose = () => setProgressBarOpen(false);
+
+  const [reportModalOpen, setReportModalOpen] = React.useState(false);
+  const handleReportModalOpen = () => setReportModalOpen(true);
+  const handleReportModalClose = () => setReportModalOpen(false);
+
+
+  useEffect(() => {
+    fetchGitRepoList()
+  }, [])
+
+
+  const fetchGitRepoList = async () => {
+    handleProgressBarClose()
+    console.log(openProgressBar)
+    const response = await ProjectService.instance.getRepoList()
+    console.log(response)
+    if (response.status) {
+      setData(response.repoList)
+    }
+  }
 
   const handleCommitsClick = () => {
     setModalType('commits');
@@ -31,68 +101,248 @@ const GitReport = () => {
   const handleModalSubmit = (value) => {
     if (modalType === 'commits') {
       setNumCommits(value);
+
+
     } else if (modalType === 'reports') {
       setNumReports(value);
     }
     setModalOpen(false);
   };
 
+
+  const handleAddNewGitRepo = async () => {
+
+    const payload = {
+      repoName: name,
+      repoUrl: url
+    }
+    const response = await ProjectService.instance.addRepo(payload)
+    console.log(response)
+    if (response.status) {
+      setName('')
+      setUrl('')
+      fetchGitRepoList()
+      handleAddModalClose()
+
+    }
+  }
+
+  const handleEdit = async () => {
+    const payload = {
+      repoId: id,
+      repoName: name,
+      repoUrl: url
+    }
+    const response = await ProjectService.instance.editRepo(payload)
+    console.log(response)
+    if (response.status) {
+      setName('')
+      setUrl('')
+
+      fetchGitRepoList()
+      handleEditModalClose()
+
+    }
+  }
+
+  const handleDelete = async () => {
+    const payload = {
+      repoId: id
+    }
+
+    const response = await ProjectService.instance.deleteRepo(payload)
+    console.log(response)
+    if (response.status) {
+      setName('')
+      setUrl('')
+
+      fetchGitRepoList()
+      handleEditModalClose()
+    }
+  }
+
+  const handleReport = async () => {
+    handleEditModalClose()
+    handleProgressBarOpen()
+    const payload = {
+      repoId: id
+    }
+
+    const response = await ProjectService.instance.getRepoReport(payload)
+    console.log(response)
+    if (response.status) {
+      handleReportModalOpen()
+      handleProgressBarClose()
+      setReport(response.gitReport.body.summary);
+    }
+  }
+
+  const handleReportClose = async () => {
+    setReport('');
+    handleReportModalClose()
+  }
+
+  const rowSelected = (args) => {
+    const repo = args.data;
+    setId(repo['repoId'])
+    setName(repo['repoName'])
+    setUrl(repo['repoUrl'])
+
+    console.log(repo)
+
+    handleEditModalOpen()
+  };
+
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="GitReport" title="Commit/Report Summary" />
+      <Header category="Git Repo" title="Git Repositories" />
+      <Button onClick={handleAddModalOpen}>Add Git Repo</Button>
+      <GridComponent
+        dataSource={data}
+        allowPaging
+        allowSorting
+        editSettings={{ allowDeleting: false, allowEditing: false, allowAdding: false }}
+        width="auto"
+        allowFiltering
+        rowSelected={rowSelected}
+      >
+        <ColumnsDirective>
+          <ColumnDirective field='repoId' width='100' />
+          <ColumnDirective field='repoName' width='100' />
+          <ColumnDirective field='repoUrl' width='100' />
+          {/* <ColumnDirective field='assignedUsers' width='100' /> */}
+
+        </ColumnsDirective>
+        <Inject services={[Page, Search, Toolbar, Selection, Edit, Sort, CommandColumn, Filter]} />
+      </GridComponent>
+
 
       <div>
-        <StyledButton onClick={handleCommitsClick}>Get Commits</StyledButton>
-        {numCommits && <p>You want to retrieve {numCommits} commits.</p>}
-      </div>
-      <div>
-        <StyledButton onClick={handleReportsClick}>Get Reports</StyledButton>
-        {numReports && <p>You want to retrieve {numReports} reports.</p>}
-      </div>
-
-      {modalOpen && (
-        <Modal onClose={() => setModalOpen(false)}>
-          <h2>Please enter the number of {modalType}</h2>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const value = e.target.elements.value.value;
-              handleModalSubmit(value);
-            }}
-          >
-            <label style={{ display: "block", marginBottom: "15px" }}>
-              <input
-                type="number"
-                name="value"
-                style={{
-                  backgroundColor: "#f7f7f7",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  padding: "8px",
-                  fontSize: "25px",
-                  color: "#333",
+        <Dialog
+          open={addModalOpen}
+          keepMounted
+          // fullScreen
+          onClose={handleAddModalClose}
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description" component="form">
+              <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 1, width: '25ch' },
                 }}
-              />
-            </label>
-            <div className="flex justify-between" style={{ marginTop: "10px" }}>
-              <button
-                type="submit"
-                className="inline-flex justify-center py-2 px-2.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                noValidate
+                autoComplete="off"
               >
-                Submit
-              </button>
-              <button
-                type="button"
-                onClick={() => setModalOpen(false)}
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                style={{ marginLeft: "10px" }}
-              >
-                Close
-              </button>
-            </div>
-          </form>
-        </Modal>
-      )}
+                <div>
+                  <TextField
+                    form
+                    id="outlined-disabled"
+                    label="Repo Name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <TextField
+                    form
+                    id="outlined-password-input"
+                    label="Repo Url"
+                    multiline
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                  />
+                </div>
+              </Box>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleAddNewGitRepo}>Add new repo</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={editModalOpen}
+          keepMounted
+          onClose={handleEditModalClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogContent>
+            <Box
+              component="form"
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <div>
+                <TextField
+                  form
+                  id="outlined-disabled"
+                  label="Project Name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <TextField
+                  form
+                  id="outlined-password-input"
+                  label="url"
+                  multiline
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+              </div>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDelete}>Delete</Button>
+            <Button onClick={handleEdit}>Edit</Button>
+            <Button onClick={handleReport}>Get Git Commit Report</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={reportModalOpen}
+          keepMounted
+          onClose={handleReportModalOpen}
+          aria-describedby="alert-dialog-slide-description"
+          scroll='paper'
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <DialogTitle id="scroll-dialog-title">Git report</DialogTitle>
+          <DialogContent>
+          <DialogContentText>
+
+          </DialogContentText>
+              {report}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleReportClose}>Close</Button>
+            {/* <Button onClick={handleReport}>Get Git Commit Report</Button> */}
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openProgressBar}
+        onClick={handleProgressBarClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      </div>
     </div>
   );
 };
