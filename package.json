@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "dhtmlx-gantt": "^8.0.1"
+    "dhtmlx-gantt": "^8.0.1",
+    "react-gantt-chart": "^0.3.0-rc.11"
   }
 }

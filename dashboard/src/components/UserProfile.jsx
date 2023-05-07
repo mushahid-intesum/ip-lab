@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -9,6 +10,14 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SignIn } from '../pages';
+
+const loading = (
+  <div className="pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+)
 
 const UserProfile = () => {
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -49,7 +58,12 @@ const UserProfile = () => {
   };
   
     const [open, setOpen] = React.useState(false);
-  
+
+    const navigate = useNavigate()
+    const navigateToSignIn = () => {
+      navigate('/signin')
+    };
+
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -61,6 +75,9 @@ const UserProfile = () => {
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
           Profile
+        </Button>
+        <Button variant="outlined" onClick={navigateToSignIn}>
+          Logout
         </Button>
         <BootstrapDialog
           onClose={handleClose}
