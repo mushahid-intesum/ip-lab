@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
+import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock, AiOutlineFieldTime } from 'react-icons/ai';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart, FiDatabase, FiHome } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft, BsGithub } from 'react-icons/bs';
 import { BiColorFill } from 'react-icons/bi';
@@ -513,6 +513,11 @@ export const links = [
       {
         name: 'gitReport',
         icon: <BsGithub />,
+      },
+
+      {
+        name: 'workHours',
+        icon: <AiOutlineFieldTime />,
       },
     ],
   },

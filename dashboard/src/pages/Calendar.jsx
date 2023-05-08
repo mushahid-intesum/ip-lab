@@ -3,14 +3,11 @@ import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject, Resize, 
 import {scheduleData} from '../data/dummy';
 import {Header} from '../components';
 import { useEffect, useState } from 'react'
-import ProjectService from '../services/ProjectService'
-
-import { useNavigate } from 'react-router-dom'
-
+import UserService from '../services/UserService'
 
 
 const Calendar = () => {
-  const navigate = useNavigate()
+
   const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [summary, setSummary] = useState('')
@@ -22,19 +19,6 @@ const Calendar = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const currentUser = localStorage.getItem("user")
-
-    if(currentUser === "")
-    {
-      navigate("/signin");
-    }
-    const currentProject = localStorage.getItem("currentProject");
-
-    if(currentProject === "")
-    {
-      alert("Please select a project")
-      navigate("/home");
-    }
     fetchTaskList()
   }, [])
 
@@ -60,7 +44,7 @@ const Calendar = () => {
   ];
 
   const fetchTaskList = async () => {
-    const response = await ProjectService.instance.getTaskList()
+    const response = await UserService.instance.getTaskList()
     console.log(response)
     if (response.status) {
 
@@ -84,7 +68,8 @@ const Calendar = () => {
       <ScheduleComponent 
         height="650px"
         eventSettings={{ dataSource: data }}
-        selectedDate={ new Date(2021, 0, 10) }  
+        selectedDate={ new Date() }  
+        currentView="Day"
       >
         <Inject services={[Day, Week, WorkWeek, Month, Agenda, Resize, DragAndDrop]} />
       </ScheduleComponent>
@@ -93,4 +78,4 @@ const Calendar = () => {
   )
 }
 
-export default Calendar;
+export default Calendar
