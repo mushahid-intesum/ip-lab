@@ -7,14 +7,15 @@ async function dropTables() {
 	try {
 		const response = await new Promise((resolve, reject) => {
 			dbConnection.query(
-				"DROP TABLE IF EXISTS user_table;"+
-				"DROP TABLE IF EXISTS projects_table;"+
-				"DROP TABLE IF EXISTS git_repo_table;"+
-				"DROP TABLE IF EXISTS tasks_table;"+
-				"DROP TABLE IF EXISTS kanban_table;",
-				"DROP TABLE IF EXISTS calendar_table;",
+				// "DROP TABLE IF EXISTS user_table;"+
+				// "DROP TABLE IF EXISTS projects_table;"+
+				// "DROP TABLE IF EXISTS git_repo_table;"+
+				// "DROP TABLE IF EXISTS tasks_table;"+
+				// "DROP TABLE IF EXISTS kanban_table;",
+				// "DROP TABLE IF EXISTS calendar_table;",
 				"DROP TABLE IF EXISTS work_hours_table;",
-				"DROP TABLE IF EXISTS project_user_table;",
+				// "DROP TABLE IF EXISTS project_user_table;",
+				// "DROP TABLE IF EXISTS task_user_table;",
 				(error, result, field) => {
 					if (error) {
 						console.log(error);
@@ -286,8 +287,10 @@ async function createWorkHoursTable()
 				"workHourId VARCHAR(250) NOT NULL,"+
 				"userId VARCHAR(250),"+
 				"projectId VARCHAR(250),"+
-				"startTime TIMESTAMP DEFAULT NOW(),"+
-				"endTime TIMESTAMP DEFAULT NOW(),"+
+				"startTime VARCHAR(250),"+
+				"endTime VARCHAR(250),"+
+				"date VARCHAR(250), "+
+				"totalTime VARCHAR(250), "+
 				"deleted VARCHAR(250) DEFAULT 'NO', "+
 				"PRIMARY KEY (workHourId)) " +
 				"Engine = Innodb DEFAULT CHARSET=utf8;",

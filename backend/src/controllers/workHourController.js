@@ -5,15 +5,15 @@ const { ServerEnum } = require("../../ServerEnum");
 
 async function createWorkHour(req, res) {
     try {
-        const { userId, projectId, createdAt } = req.body;
+        const { userId, projectId, startTime, endTime, totalTime, date } = req.body;
         const workHourId = uuid.v1();
 
         await new Promise((resolve, reject) => {
             dbConnection.query(
                 `INSERT INTO work_hours_table
-                    (workHourId, userId, projectId, createdAt)
-                    VALUES (?,?,?,?) `,
-                [workHourId, userId, projectId, createdAt],
+                    (workHourId, userId, projectId, startTime, endTime, totalTime, date)
+                    VALUES (?,?,?,?,?,?,?) `,
+                [workHourId, userId, projectId, startTime, endTime, totalTime, date],
                 (error, result, field) => {
                     if (error) {
                         res.status(401).json({ message: error });
