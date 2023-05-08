@@ -7,5 +7,6 @@ export { default as ProjectUsers } from './ProjectUsers';
 export { default as GitReport } from './GitReport';
 export { default as SignIn } from './SignIn';
 export { default as SignUp } from './SignUp';
+export { default as WorkHours } from './WorkHours'; 
 
 
