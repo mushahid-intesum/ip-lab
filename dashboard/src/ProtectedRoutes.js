@@ -5,7 +5,7 @@ const ProtectedRoutes = () => {
   const user = localStorage.getItem('user');
   console.log(user)
 
-  return user ? <Outlet /> : <Navigate to="/sign-in-sign-up" />
+  return user ? <Outlet /> : <Navigate to="/signin" />
 }
 
 export default ProtectedRoutes

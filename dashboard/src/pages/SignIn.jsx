@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react'
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,6 +37,14 @@ export default function SignIn() {
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const currentUser = localStorage.getItem("user");
+
+    if(currentUser !== "")
+    {
+      navigate("/home");
+    }
+  }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,7 +58,8 @@ export default function SignIn() {
     const response = await UserService.instance.login(payload)
     console.log(response);
     if (response.status) {
-      localStorage.setItem("user", payload);
+      console.log(response.user)
+      localStorage.setItem("user", JSON.stringify(response.user));
       navigate("/home");
     }
     alert(response.responseMessage)

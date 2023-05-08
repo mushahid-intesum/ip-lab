@@ -36,10 +36,11 @@ async function createNewProject(req, res) {
 
 async function getAllProjects(req, res) {
     try {
+        const { userId, userName, userEmail } = req.body;
         const list = await new Promise((resolve, reject) => {
             dbConnection.query(
-                "SELECT * from projects_table WHERE deleted = ?",
-                ["NO"],
+                "SELECT * from projects_table WHERE deleted = ? AND projectManagerId = ?",
+                ["NO", userId],
                 (error, result, field) => {
                     if (error) {
                         res.status(401).json({ message: error });

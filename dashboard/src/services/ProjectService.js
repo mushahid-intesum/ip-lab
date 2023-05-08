@@ -209,7 +209,7 @@ class ProjectService {
         return DefaultService.instance.defaultResponse()
     }
 
-    async getProjectList() {
+    async getProjectList(payload) {
         let retry = 0
 
         while (retry++ < 2) {
@@ -217,6 +217,7 @@ class ProjectService {
             try {
                 const getProjectListResponse = await axios.post(
                     ServerConfig.url.API_URL + '/get_all_projects/',
+                    payload,
                     DefaultService.instance.getHeader(),
                 )
 

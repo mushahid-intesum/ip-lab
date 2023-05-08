@@ -64,10 +64,12 @@ const ProjectUsers = () => {
 
   const fetchAllUserList = async () => {
     const projectId = localStorage.getItem('currentProject');
+    const user = JSON.parse(localStorage.getItem("user"))
 
     const payload = 
     {
-      projectId: projectId
+      projectId: projectId,
+      userId: user.userId
     }
     const response = await UserService.instance.getUsersNotInProjectList(payload)
     console.log(response)

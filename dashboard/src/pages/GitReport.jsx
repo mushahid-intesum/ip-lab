@@ -24,6 +24,8 @@ import { useNavigate } from 'react-router-dom'
 import ProjectService from "../services/ProjectService";
 import { ServerConfig } from '../config/ServerConfig'
 
+
+
 const StyledButton = styled.button`
   background-color: transparent;
   color: blue;
@@ -74,6 +76,19 @@ const GitReport = () => {
 
 
   useEffect(() => {
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "")
+    {
+      navigate("/signin");
+    }
+    const currentProject = localStorage.getItem("currentProject");
+
+    if(currentProject === "")
+    {
+      alert("Please select a project")
+      navigate("/home");
+    }
     fetchGitRepoList()
   }, [])
 

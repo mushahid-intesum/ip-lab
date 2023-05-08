@@ -3,20 +3,40 @@ const bcrypt = require("bcrypt");
 const dbConnection = require("../database");
 const { ServerEnum } = require("../../ServerEnum");
 
-async function createNewTask(req, res)
-{
-    try
-    {
-        const { taskName, summary, startDate, endDate, status, projectId} = req.body;
-        
+async function createNewTask(req, res) {
+    try {
+        const { taskName, summary, startDate, endDate, status, projectId, assigedUsers } = req.body;
+
         const taskId = uuid.v1();
 
         await new Promise((resolve, reject) => {
-                dbConnection.query(
-                    `INSERT INTO tasks_table
+            dbConnection.query(
+                `INSERT INTO tasks_table
                     (taskId, summary, taskName, startDate, endDate, status, projectId)
                     VALUES (?,?,?,?,?,?,?) `,
-                    [taskId, summary, taskName, startDate, endDate, status, projectId],
+                [taskId, summary, taskName, startDate, endDate, status, projectId],
+                (error, result, field) => {
+                    if (error) {
+                        res.status(401).json({ message: error });
+                        return;
+                    }
+                    resolve();
+                }
+            );
+        });
+
+        let users = Object.values(JSON.parse(JSON.stringify(assigedUsers)))
+
+        console.log(users, users.length)
+
+        for (let i = 0; i < users.length; i++) {
+            let userId = users[i];
+            await new Promise((resolve, reject) => {
+                dbConnection.query(
+                    `INSERT INTO task_user_table
+                    (taskId, userId)
+                    VALUES (?,?) `,
+                    [taskId, userId],
                     (error, result, field) => {
                         if (error) {
                             res.status(401).json({ message: error });
@@ -25,10 +45,12 @@ async function createNewTask(req, res)
                         resolve();
                     }
                 );
-            return res.send({
-                status: true,
-                responseMessage: "task created",
             });
+        }
+
+        return res.send({
+            status: true,
+            responseMessage: "task created",
         });
 
     } catch (e) {
@@ -36,8 +58,7 @@ async function createNewTask(req, res)
     }
 }
 
-async function getAllTasks(req, res)
-{
+async function getAllTasks(req, res) {
     try {
         const list = await new Promise((resolve, reject) => {
             dbConnection.query(
@@ -62,10 +83,9 @@ async function getAllTasks(req, res)
     }
 }
 
-async function getTask(req, res)
-{
+async function getTask(req, res) {
     try {
-        const {taskId} = req.body;
+        const { taskId } = req.body;
         const list = await new Promise((resolve, reject) => {
             dbConnection.query(
                 "SELECT * from tasks_table WHERE taskId = ? AND deleted = ?",
@@ -89,38 +109,35 @@ async function getTask(req, res)
     }
 }
 
-async function updateTask(req, res)
-{
-    try
-    {
-        const { taskId, taskName, summary, startDate, endDate, status} = req.body;
-        
+async function updateTask(req, res) {
+    try {
+        const { taskId, taskName, summary, startDate, endDate, status } = req.body;
+
         await new Promise((resolve, reject) => {
-                dbConnection.query(
-                    `UPDATE tasks_table SET
+            dbConnection.query(
+                `UPDATE tasks_table SET
                     taskName = ?, summary = ?, startDate = ?, endDate = ?, status = ? WHERE taskId = ?`,
-                    [taskName, summary, startDate, endDate, status, taskId],
-                    (error, result, field) => {
-                        if (error) {
-                            res.status(401).json({ message: error });
-                            return;
-                        }
-                        resolve();
+                [taskName, summary, startDate, endDate, status, taskId],
+                (error, result, field) => {
+                    if (error) {
+                        res.status(401).json({ message: error });
+                        return;
                     }
-                );
-            });
-            return res.send({
-                status: true,
-                responseMessage: "task updated",
-            });
+                    resolve();
+                }
+            );
+        });
+        return res.send({
+            status: true,
+            responseMessage: "task updated",
+        });
 
     } catch (e) {
         console.log(e);
     }
 }
 
-async function deleteTask(req, res)
-{
+async function deleteTask(req, res) {
     try {
         const { taskId } = req.body;
         await new Promise((resolve, reject) => {
@@ -137,10 +154,27 @@ async function deleteTask(req, res)
                     resolve();
                 }
             );
-            return res.send({
-                status: true,
-                responseMessage: "task deleted",
-            });
+        });
+
+        await new Promise((resolve, reject) => {
+            dbConnection.query(
+                "UPDATE task_user_table SET deleted = ? WHERE taskId = ? ",
+                ["YES", taskId],
+                (error, result, field) => {
+                    if (error) {
+                        res.status(401).json({
+                            message: error,
+                        });
+                        return;
+                    }
+                    resolve();
+                }
+            );
+        });
+
+        return res.send({
+            status: true,
+            responseMessage: "task deleted",
         });
     } catch (e) {
         console.log(e);
@@ -189,7 +223,7 @@ async function getProjectTasks(req, res) {
         }
 
         return res.send({
-            taskList: taskList, 
+            taskList: taskList,
             status: true,
             responseMessage: "task list for project sent",
         });

@@ -53,12 +53,21 @@ const Home = () => {
   }
 
   useEffect(() => {
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "")
+    {
+      navigate("/signin");
+    }
     fetchProjectsList()
-  }, [])
+  }, []) 
 
 
   const fetchProjectsList = async () => {
-    const response = await ProjectService.instance.getProjectList()
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const response = await ProjectService.instance.getProjectList(user)
     console.log(response)
     if (response.status) {
 
@@ -74,12 +83,13 @@ const Home = () => {
   }
 
   const handleAddNewProject = async () => {
-
+    const user = JSON.parse(localStorage.getItem("user"));
     const payload = {
       projectName: name,
       description: description,
       startDate: startDate,
-      endDate: endDate
+      endDate: endDate,
+      projectManagerId: user.userId
     }
     const response = await ProjectService.instance.addProject(payload)
     console.log(response)

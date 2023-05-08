@@ -60,6 +60,20 @@ const Team = () => {
   const [projectUserData, setProjectUserData] = useState([])
 
   useEffect(() => {
+  
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "")
+    {
+      navigate("/signin");
+    }
+    const currentProject = localStorage.getItem("currentProject");
+
+    if(currentProject === "")
+    {
+      alert("Please select a project")
+      navigate("/home");
+    }
     fetchProjectUserList();
   }, [])
 
@@ -67,8 +81,9 @@ const Team = () => {
 
     const projectId = localStorage.getItem("currentProject")
 
+
     const payload = {
-      projectId: projectId
+      projectId: projectId,
     }
     const response = await ProjectService.instance.getProjectUsers(payload)
     console.log(response)

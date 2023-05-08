@@ -5,9 +5,12 @@ import {Header} from '../components';
 import { useEffect, useState } from 'react'
 import UserService from '../services/UserService'
 
+import { useNavigate } from 'react-router-dom'
+
+
 
 const Calendar = () => {
-
+  const navigate = useNavigate()
   const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [summary, setSummary] = useState('')
@@ -19,6 +22,19 @@ const Calendar = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "")
+    {
+      navigate("/signin");
+    }
+    const currentProject = localStorage.getItem("currentProject");
+
+    if(currentProject === "")
+    {
+      alert("Please select a project")
+      navigate("/home");
+    }
     fetchTaskList()
   }, [])
 

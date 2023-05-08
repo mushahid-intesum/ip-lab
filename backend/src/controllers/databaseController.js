@@ -66,7 +66,7 @@ async function createProjectUserTable()
 				"CREATE TABLE IF NOT EXISTS project_user_table (" +
 				"userId VARCHAR(250) NOT NULL," +
 				"projectId VARCHAR(250) NOT NULL," +
-				"userRole VARCHAR, " +
+				"userRole VARCHAR(250), " +
 				"deleted VARCHAR(250) DEFAULT 'NO', "+
 				"PRIMARY KEY (userId, projectId)) " +
 				"Engine = Innodb DEFAULT CHARSET=utf8;",
@@ -155,9 +155,32 @@ async function createTasksTable()
 				"projectId VARCHAR(250) NOT NULL," +
 				"status VARCHAR(250)," +
 				"deleted VARCHAR(250) DEFAULT 'NO', "+
-				"kanbanId VARCHAR(250), "+
-				"calendarId VARCHAR(250), "+
 				"PRIMARY KEY (taskId)) " +
+				"Engine = Innodb DEFAULT CHARSET=utf8;",
+							(error, result, field) => {
+					if (error) {
+						console.log(error);
+						return;
+					}
+					resolve(result);
+				}
+			);
+		});
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+async function createTaskUserTable()
+{
+	try {
+		const response = await new Promise((resolve, reject) => {
+			dbConnection.query(
+				"CREATE TABLE IF NOT EXISTS task_user_table (" +
+				"userId VARCHAR(250) NOT NULL," +
+				"taskId VARCHAR(250) NOT NULL," +
+				"deleted VARCHAR(250) DEFAULT 'NO', "+
+				"PRIMARY KEY (userId, taskId)) " +
 				"Engine = Innodb DEFAULT CHARSET=utf8;",
 							(error, result, field) => {
 					if (error) {
@@ -335,35 +358,36 @@ async function databaseCommit(req, res) {
 		createCalendarTable();
 		createWorkHoursTable();
 		createProjectUserTable();
+		createTaskUserTable();
 
 		addUsers();
 
-		const adminId = uuid.v1();
-		const password = "123456";
-		const name = "ADMIN";
-		const role = "SUPER ADMIN"
-		const email = "admin@utilitool.com";
+		// const adminId = uuid.v1();
+		// const password = "123456";
+		// const name = "ADMIN";
+		// const role = "SUPER ADMIN"
+		// const email = "admin@utilitool.com";
 
-		await new Promise((resolve, reject) => {
-			bcrypt.hash(password, 10, (err, hash) => {
-				dbConnection.query(
-					`INSERT INTO user_table 
-            (userId, userName, userEmail, userPassword)
-                VALUES (?,?,?,?) `,
-					[adminId, name, email, hash],
-					(error, result, field) => {
-						if (error) {
-							console.log(error);
-							return;
-						}
-						return res.send({
-							status: true,
-							responseMessage: "database commit",
-						});
-					}
-				);
-			});
-		});
+		// await new Promise((resolve, reject) => {
+		// 	bcrypt.hash(password, 10, (err, hash) => {
+		// 		dbConnection.query(
+		// 			`INSERT INTO user_table 
+        //     (userId, userName, userEmail, userPassword)
+        //         VALUES (?,?,?,?) `,
+		// 			[adminId, name, email, hash],
+		// 			(error, result, field) => {
+		// 				if (error) {
+		// 					console.log(error);
+		// 					return;
+		// 				}
+		// 				return res.send({
+		// 					status: true,
+		// 					responseMessage: "database commit",
+		// 				});
+		// 			}
+		// 		);
+		// 	});
+		// });
 		return res.send({
 			status: true,
 			responseMessage: "database commit",

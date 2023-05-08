@@ -217,7 +217,7 @@ async function getProjectUsers(req, res) {
 
         let users = await new Promise((resolve, reject) => {
             dbConnection.query(
-                "SELECT * from user_table WHERE deleted = ? AND userId IN (SELECT userId from project_user_table WHERE projectId = ?)",
+                "SELECT * from user_table WHERE deleted = ? AND userId IN (SELECT userId from project_user_table WHERE projectId = ? )",
                 ["NO", projectId],
                 (error, result, field) => {
                     if (error) {
@@ -243,12 +243,12 @@ async function getProjectUsers(req, res) {
 async function getUsersNotInProject(req, res) {
     try {
 
-        const { projectId } = req.body;
+        const { userId, projectId } = req.body;
         console.log(projectId)
         let users = await new Promise((resolve, reject) => {
             dbConnection.query(
-                "SELECT * from user_table WHERE deleted = ? AND userId NOT IN (SELECT userId from project_user_table WHERE projectId = ?)",
-                ["NO", projectId],
+                "SELECT * from user_table WHERE deleted = ? AND userId NOT IN (SELECT userId from project_user_table WHERE projectId = ? AND NOT userId = ?)",
+                ["NO", projectId, userId],
                 (error, result, field) => {
                     if (error) {
                         res.status(401).json({ message: error });

@@ -10,8 +10,11 @@ import { Header } from '../components';
 
 import UserService from '../services/UserService'
 
-const Kanban = () => {
+import { useNavigate } from 'react-router-dom'
 
+
+const Kanban = () => {
+  const navigate = useNavigate()
   const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [summary, setSummary] = useState('')
@@ -23,6 +26,19 @@ const Kanban = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "")
+    {
+      navigate("/signin");
+    }
+    const currentProject = localStorage.getItem("currentProject");
+
+    if(currentProject === "")
+    {
+      alert("Please select a project")
+      navigate("/home");
+    }
     fetchTaskList()
   }, [])
 

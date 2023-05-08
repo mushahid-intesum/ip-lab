@@ -34,7 +34,7 @@ const theme = createTheme();
 
 export default function SignUp() {
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -52,7 +52,7 @@ export default function SignUp() {
     const response = await UserService.instance.signup(payload)
     console.log(response);
     if (response.status) {
-      localStorage.setItem("user", payload);
+      localStorage.setItem("user", JSON.stringify(response.user));
       navigate("/home");
     }
     alert(response.responseMessage)
@@ -77,7 +77,7 @@ export default function SignUp() {
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} >
-                <TextField 
+                <TextField
                   autoComplete="given-name"
                   name="Name"
                   required
