@@ -70,7 +70,9 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-
+          <Typography component="h1" variant="h4" className='text-xl text-center mb-4'>
+            Register in UtiliTool
+          </Typography>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>

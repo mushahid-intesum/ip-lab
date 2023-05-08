@@ -58,7 +58,9 @@ const UserProfile = () => {
   };
   
     const [open, setOpen] = React.useState(false);
-
+    const [name, setName] = React.useState("Kazi Shadman Sakib");
+    const [email, setEmail] = React.useState("kazishadmankabbo@gmail.com");
+    const [password, setPassword] = React.useState("********");
     const navigate = useNavigate()
     const navigateToSignIn = () => {
       localStorage.setItem("user", "");
@@ -72,7 +74,19 @@ const UserProfile = () => {
     const handleClose = () => {
       setOpen(false);
     };
-  
+    const [hasChanged, setHasChanged] = React.useState(false);
+
+    const handleFieldChange = () => {
+      setHasChanged(true);
+    };
+
+    const handleSaveChanges = () => {
+      if (hasChanged) {
+        // Add your code to save changes here
+        setHasChanged(false);
+      }
+    };
+
     return (
       <div>
         <Button variant="outlined" onClick={handleClickOpen}>
@@ -87,28 +101,58 @@ const UserProfile = () => {
           open={open}
         >
           <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-            Modal title
+            My Profile
           </BootstrapDialogTitle>
           <DialogContent dividers>
-            <Typography gutterBottom>
-              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-              consectetur ac, vestibulum at eros.
-            </Typography>
-            <Typography gutterBottom>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-              Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-            </Typography>
-            <Typography gutterBottom>
-              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-              magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-              ullamcorper nulla non metus auctor fringilla.
-            </Typography>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Name"
+              type="text"
+              value={name}
+              onChange={(event) => {
+                setName(event.target.value);
+                handleFieldChange();
+              }}
+              fullWidth
+            />
+
+            <TextField
+              autoFocus
+              margin="dense"
+              id="email"
+              label="Email Address"
+              type="email"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                handleFieldChange();
+              }}
+              fullWidth
+            />
+
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              type="password"
+              fullWidth
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                handleFieldChange();
+              }}
+            />
+
           </DialogContent>
+          
           <DialogActions>
-            <Button autoFocus onClick={handleClose}>
+            
+            <Button autoFocus onClick={handleSaveChanges}>
               Save changes
             </Button>
+
           </DialogActions>
         </BootstrapDialog>
       </div>
