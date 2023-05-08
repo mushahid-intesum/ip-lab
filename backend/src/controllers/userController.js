@@ -7,7 +7,7 @@ async function login(req, res) {
     try {
         const { userEmail, userPassword } = req.body;
 
-        const user = await new Promise((resolve, reject) => {
+        let user = await new Promise((resolve, reject) => {
             dbConnection.query(
                 "SELECT * FROM user_table WHERE userEmail = ? and deleted = ?",
                 [userEmail, "NO"],
@@ -25,20 +25,26 @@ async function login(req, res) {
                 }
             );
         });
+        user = Object.values(JSON.parse(JSON.stringify(user)))
 
-        bcrypt.compare(userPassword, user.userPassword, (err, result) => {
+        console.log(userPassword, user[0]['userPassword'])
+
+        bcrypt.compare(userPassword, user[0]['userPassword'], (err, result) => {
             if (result) {
-                delete user.userPassword;
+                delete user[0].userPassword;
                 return res.send({
-                    user: admin,
+                    user: user[0],
                     status: true,
                     responseMessage: "Login Successful",
                 });
             }
-            return res.send({
-                status: false,
-                responseMessage: "Password is incorrect",
-            });
+            else
+            {
+                return res.send({
+                    status: false,
+                    responseMessage: "Password was incorrect",
+                });
+            }
         });
     }
 
@@ -51,6 +57,8 @@ async function createNewUser(req, res) {
     try {
         const { userName, userEmail, userPassword } = req.body;
         const userId = uuid.v1();
+
+        console.log(userName)
 
         const verify = await getDeletedUser(req);
 

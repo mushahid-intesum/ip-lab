@@ -82,6 +82,9 @@ const DefaultLayout = () => {
                 <Route path="/kanban" element={<Kanban />} /> 
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/gitreport" element={<GitReport />} />
+                <Route path="/userprofile" element={<UserProfile />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
               </Routes>
             </div>
           </div>

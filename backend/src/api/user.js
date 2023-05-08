@@ -11,7 +11,7 @@ router.post("/get_user", userController.getUser);
 router.post("/get_all_users", userController.getAllUsers);
 router.post("/delete_user", userController.deleteUser);
 router.post("/update_user", userController.updateUser);
-router.post("/create_user", userController.createNewUser);
+router.post("/create_new_user", userController.createNewUser);
 router.post("/add_users_to_project", userController.addUsersToProject);
 router.post("/update_project_user", userController.updateProjectUser);
 router.post("/remove_project_user", userController.removeUserFromProject);

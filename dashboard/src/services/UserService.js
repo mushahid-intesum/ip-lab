@@ -7,6 +7,59 @@ class UserService{
 
     static instance = UserService.instance || new UserService()
 
+    async login(payload)
+    {
+        let retry = 0
+
+        while (retry++ < 2) {
+          console.log(ServerConfig.url.API_URL + '/login/')
+          try {
+            const loginResponse = await axios.post(
+              ServerConfig.url.API_URL + '/login/',
+              payload,
+              DefaultService.instance.getHeader(),
+            )
+    
+            switch (loginResponse.data.responseMessage) {
+              default:
+                return loginResponse.data
+            }
+          } catch (error) {
+            console.log('Error in login in services/UserService.js')
+            console.log(error)
+            retry++
+          }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
+
+    async signup(payload)
+    {
+        let retry = 0
+
+        while (retry++ < 2) {
+          console.log(ServerConfig.url.API_URL + '/create_new_user/')
+          try {
+            const signupResponse = await axios.post(
+              ServerConfig.url.API_URL + '/create_new_user/',
+              payload,
+              DefaultService.instance.getHeader(),
+            )
+    
+            switch (signupResponse.data.responseMessage) {
+              default:
+                return signupResponse.data
+            }
+          } catch (error) {
+            console.log('Error in signup in services/UserService.js')
+            console.log(error)
+            retry++
+          }
+        }
+        return DefaultService.instance.defaultResponse()
+    }
+    
+
     async getUserList()
     {
         let retry = 0

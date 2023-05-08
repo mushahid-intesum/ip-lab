@@ -13,7 +13,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useNavigate } from 'react-router-dom'
-
+import ProjectService from "../services/ProjectService";
+import UserService from "../services/UserService";
 
 function Copyright(props) {
   return (
@@ -35,14 +36,22 @@ export default function SignIn() {
   const navigate = useNavigate()
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    navigate("/home")
+
+    const payload = {
+      userEmail: data.get('email'),
+      userPassword: data.get('password')
+    }
+
+    const response = await UserService.instance.login(payload)
+    console.log(response);
+    if (response.status) {
+      localStorage.setItem("user", payload);
+      navigate("/home");
+    }
+    alert(response.responseMessage)
   };
 
   return (

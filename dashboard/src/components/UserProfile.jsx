@@ -61,6 +61,7 @@ const UserProfile = () => {
 
     const navigate = useNavigate()
     const navigateToSignIn = () => {
+      localStorage.setItem("user", "");
       navigate('/signin')
     };
 
