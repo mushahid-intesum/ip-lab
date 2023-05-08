@@ -3,7 +3,7 @@ import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject, Resize, 
 import {scheduleData} from '../data/dummy';
 import {Header} from '../components';
 import { useEffect, useState } from 'react'
-import UserService from '../services/UserService'
+import ProjectService from '../services/ProjectService'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -60,7 +60,7 @@ const Calendar = () => {
   ];
 
   const fetchTaskList = async () => {
-    const response = await UserService.instance.getTaskList()
+    const response = await ProjectService.instance.getTaskList()
     console.log(response)
     if (response.status) {
 

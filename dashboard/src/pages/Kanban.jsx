@@ -9,6 +9,7 @@ import { kanbanData, kanbanGrid } from '../data/dummy';
 import { Header } from '../components';
 
 import UserService from '../services/UserService'
+import ProjectService from '../services/ProjectService'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -44,7 +45,7 @@ const Kanban = () => {
 
 
   const fetchTaskList = async () => {
-    const response = await UserService.instance.getTaskList()
+    const response = await ProjectService.instance.getTaskList()
     console.log(response)
     if (response.status) {
 
@@ -60,7 +61,7 @@ const Kanban = () => {
 
   const handleEdit = async (payload) => {
 
-    const response = await UserService.instance.editTask(payload)
+    const response = await ProjectService.instance.editTask(payload)
     console.log(response)
     if (response.status) {
       fetchTaskList()
