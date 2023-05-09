@@ -29,13 +29,13 @@ const Kanban = () => {
   useEffect(() => {
     const currentUser = localStorage.getItem("user")
 
-    if(currentUser === "")
+    if(currentUser === "" || currentUser === null)
     {
       navigate("/signin");
     }
     const currentProject = localStorage.getItem("currentProject");
 
-    if(currentProject === "")
+    if(currentProject === "" || currentProject === null)
     {
       alert("Please select a project")
       navigate("/home");
@@ -85,7 +85,7 @@ const Kanban = () => {
         actionComplete={onActionComplete}
       >
         <ColumnsDirective>
-          <ColumnDirective headerText="To Do" keyField="Open" />
+          <ColumnDirective headerText="To Do" keyField="To Do" />
           <ColumnDirective headerText="Ongoing" keyField="Ongoing" />
           <ColumnDirective headerText="Testing" keyField="Testing" />
           <ColumnDirective headerText="Done" keyField="Done" />

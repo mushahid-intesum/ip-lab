@@ -63,13 +63,13 @@ const Team = () => {
   
     const currentUser = localStorage.getItem("user")
 
-    if(currentUser === "")
+    if(currentUser === "" || currentUser === null)
     {
       navigate("/signin");
     }
     const currentProject = localStorage.getItem("currentProject");
 
-    if(currentProject === "")
+    if(currentProject === "" || currentProject === null)
     {
       alert("Please select a project")
       navigate("/home");
@@ -97,8 +97,11 @@ const Team = () => {
   }
 
   const handleEdit = async () => {
+    const projectId = localStorage.getItem("currentProject")
     const payload = {
-      userRole: role
+      userRole: role,
+      userId: id,
+      projectId: projectId
     }
     const response = await ProjectService.instance.updateProjectUser(payload)
     console.log(response)
@@ -179,6 +182,13 @@ const Team = () => {
               noValidate
               autoComplete="off"
             >
+                <TextField
+                  form
+                  id="outlined-disabled"
+                  label="UserId"
+                  type="text"
+                  value={id}
+                />
               <div>
                 <TextField
                   form

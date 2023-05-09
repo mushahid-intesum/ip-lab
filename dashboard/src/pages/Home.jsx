@@ -55,7 +55,7 @@ const Home = () => {
   useEffect(() => {
     const currentUser = localStorage.getItem("user")
 
-    if(currentUser === "")
+    if(currentUser === "" || currentUser === null)
     {
       navigate("/signin");
     }

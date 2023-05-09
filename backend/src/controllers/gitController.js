@@ -11,7 +11,7 @@ cohere.init('Kci545aQ7ap1AGS8qITx1FhTnRUAI1OjYShY5cYC')
 
 async function addNewGitRepo(req, res) {
     try {
-        const { repoName, repoUrl } = req.body;
+        const { repoName, repoUrl, projectId } = req.body;
         const repoId = uuid.v1();
 
         const verify = await getDeletedRepo(req);
@@ -40,9 +40,9 @@ async function addNewGitRepo(req, res) {
             await new Promise((resolve, reject) => {
                 dbConnection.query(
                     `INSERT INTO git_repo_table
-                    (repoId, repoName, repoUrl)
-                    VALUES (?,?,?) `,
-                    [repoId, repoName, repoUrl],
+                    (repoId, repoName, repoUrl, projectId)
+                    VALUES (?,?,?,?) `,
+                    [repoId, repoName, repoUrl,projectId],
                     (error, result, field) => {
                         if (error) {
                             res.status(401).json({ message: error });
@@ -245,10 +245,11 @@ async function getGitCommits(req, res) {
 
 async function getAllRepo(req, res) {
     try {
+        const {projectId } = req.body;
         const list = await new Promise((resolve, reject) => {
             dbConnection.query(
-                "SELECT * from git_repo_table WHERE deleted = ?",
-                ["NO"],
+                "SELECT * from git_repo_table WHERE deleted = ? AND projectId = ?",
+                ["NO", projectId],
                 (error, result, field) => {
                     if (error) {
                         res.status(401).json({ message: error });

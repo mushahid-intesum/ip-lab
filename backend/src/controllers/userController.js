@@ -217,7 +217,7 @@ async function getProjectUsers(req, res) {
 
         let users = await new Promise((resolve, reject) => {
             dbConnection.query(
-                "SELECT * from user_table WHERE deleted = ? AND userId IN (SELECT userId from project_user_table WHERE projectId = ? )",
+                "SELECT * from user_table as ut LEFT JOIN project_user_table as put ON ut.userId = put.userId WHERE ut.deleted = ? AND ut.userId IN (SELECT userId from project_user_table WHERE projectId = ? )",
                 ["NO", projectId],
                 (error, result, field) => {
                     if (error) {
@@ -379,11 +379,12 @@ async function updateUser(req, res) {
 
 async function updateProjectUser(req, res) {
     try {
-        const { userId,  userRole } = req.body;
+        const { userId,  userRole, projectId } = req.body;
+        console.log(req.body)
         await new Promise((resolve, reject) => {
             dbConnection.query(
-                "UPDATE project_user_table SET userRole = ? WHERE userId = ? and deleted = ?",
-                [userRole, userId, "NO"],
+                "UPDATE project_user_table SET userRole = ? WHERE userId = ? and deleted = ? AND projectId = ?",
+                [userRole, userId, "NO", projectId],
                 (error, result, field) => {
                     if (error) {
                         res.status(401).json({

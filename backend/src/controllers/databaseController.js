@@ -7,15 +7,15 @@ async function dropTables() {
 	try {
 		const response = await new Promise((resolve, reject) => {
 			dbConnection.query(
-				// "DROP TABLE IF EXISTS user_table;"+
-				// "DROP TABLE IF EXISTS projects_table;"+
-				// "DROP TABLE IF EXISTS git_repo_table;"+
-				// "DROP TABLE IF EXISTS tasks_table;"+
-				// "DROP TABLE IF EXISTS kanban_table;",
-				// "DROP TABLE IF EXISTS calendar_table;",
+				"DROP TABLE IF EXISTS user_table;"+
+				"DROP TABLE IF EXISTS projects_table;"+
+				"DROP TABLE IF EXISTS git_repo_table;"+
+				"DROP TABLE IF EXISTS tasks_table;"+
+				"DROP TABLE IF EXISTS kanban_table;",
+				"DROP TABLE IF EXISTS calendar_table;",
 				"DROP TABLE IF EXISTS work_hours_table;",
-				// "DROP TABLE IF EXISTS project_user_table;",
-				// "DROP TABLE IF EXISTS task_user_table;",
+				"DROP TABLE IF EXISTS project_user_table;",
+				"DROP TABLE IF EXISTS task_user_table;",
 				(error, result, field) => {
 					if (error) {
 						console.log(error);

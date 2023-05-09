@@ -104,12 +104,14 @@ const Task = () => {
 
     const currentUser = localStorage.getItem("user")
 
-    if (currentUser === "") {
+    if(currentUser === "" || currentUser === null)
+    {
       navigate("/signin");
     }
     const currentProject = localStorage.getItem("currentProject");
 
-    if (currentProject === "") {
+    if(currentProject === "" || currentProject === null)
+    {
       alert("Please select a project")
       navigate("/home");
     }
@@ -437,6 +439,22 @@ const Task = () => {
                 />
 
               </div>
+
+              <TextField
+                    select
+                    SelectProps={{
+                      native: true,
+                    }}
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    helperText="Please select status"
+                  >
+                    {statuses.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </TextField>
               {/* <div>
                 <FormControl sx={{ m: 1, width: 300 }}>
                   <InputLabel id="demo-multiple-checkbox-label">Select Users</InputLabel>

@@ -78,13 +78,13 @@ const GitReport = () => {
   useEffect(() => {
     const currentUser = localStorage.getItem("user")
 
-    if(currentUser === "")
+    if(currentUser === "" || currentUser === null)
     {
       navigate("/signin");
     }
     const currentProject = localStorage.getItem("currentProject");
 
-    if(currentProject === "")
+    if(currentProject === "" || currentProject === null)
     {
       alert("Please select a project")
       navigate("/home");
@@ -95,7 +95,11 @@ const GitReport = () => {
 
   const fetchGitRepoList = async () => {
     handleProgressBarClose()
-    const response = await ProjectService.instance.getRepoList()
+    const currentProject = localStorage.getItem("currentProject");
+    const payload = {
+      projectId: currentProject
+    }
+    const response = await ProjectService.instance.getRepoList(payload)
     console.log(response)
     if (response.status) {
       setData(response.repoList)
@@ -125,10 +129,12 @@ const GitReport = () => {
 
 
   const handleAddNewGitRepo = async () => {
+    const currentProject = localStorage.getItem("currentProject");
 
     const payload = {
       repoName: name,
-      repoUrl: url
+      repoUrl: url,
+      projectId: currentProject
     }
     const response = await ProjectService.instance.addRepo(payload)
     console.log(response)

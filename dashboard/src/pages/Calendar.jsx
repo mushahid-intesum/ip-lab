@@ -3,10 +3,12 @@ import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject, Resize, 
 import {scheduleData} from '../data/dummy';
 import {Header} from '../components';
 import { useEffect, useState } from 'react'
-import UserService from '../services/UserService'
+import ProjectService from '../services/ProjectService'
+import { useNavigate } from 'react-router-dom'
 
 
 const Calendar = () => {
+  const navigate = useNavigate()
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
@@ -19,6 +21,19 @@ const Calendar = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "" || currentUser === null)
+    {
+      navigate("/signin");
+    }
+    const currentProject = localStorage.getItem("currentProject");
+
+    if(currentProject === "" || currentProject === null)
+    {
+      alert("Please select a project")
+      navigate("/home");
+    }
     fetchTaskList()
   }, [])
 
@@ -44,7 +59,7 @@ const Calendar = () => {
   ];
 
   const fetchTaskList = async () => {
-    const response = await UserService.instance.getTaskList()
+    const response = await ProjectService.instance.getTaskList()
     console.log(response)
     if (response.status) {
 

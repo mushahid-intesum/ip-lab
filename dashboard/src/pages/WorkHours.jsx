@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom'
 
 const WorkHours = () => {
+  const navigate = useNavigate()
+
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(false);
   const [workHours, setWorkHours] = useState([]);
@@ -22,6 +25,19 @@ const WorkHours = () => {
   }
 
   useEffect(() => {
+    const currentUser = localStorage.getItem("user")
+
+    if(currentUser === "" || currentUser === null)
+    {
+      navigate("/signin");
+    }
+    const currentProject = localStorage.getItem("currentProject");
+
+    if(currentProject === "" || currentProject === null)
+    {
+      alert("Please select a project")
+      navigate("/home");
+    }
     let interval;
     if (running) {
       interval = setInterval(() => {

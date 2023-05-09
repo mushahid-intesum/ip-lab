@@ -310,7 +310,7 @@ class ProjectService {
     }
 
 
-    async getRepoList() {
+    async getRepoList(payload) {
         let retry = 0
 
         while (retry++ < 2) {
@@ -318,6 +318,7 @@ class ProjectService {
             try {
                 const getRepoListResponse = await axios.post(
                     ServerConfig.url.API_URL + '/get_all_repo/',
+                    payload,
                     DefaultService.instance.getHeader(),
                 )
 
